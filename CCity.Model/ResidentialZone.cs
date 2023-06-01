@@ -1,25 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CCity.Model
+﻿namespace CCity.Model
 {
     public class ResidentialZone : Zone
     {
         #region Constants
 
-        private const byte ResidentialZonePotential = 1;
+        private const float ResidentialZonePotential = 0.01f;
         
         #endregion
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 500;
         public override int MaintenanceCost => 0;
 
-        public override byte Potential => Owner?.FireDepartmentEffect > 0 ? (byte)0 : ResidentialZonePotential;
+        public override float Potential => Owner?.FireDepartmentEffect > 0.5 || Empty ? 0 : ResidentialZonePotential;
 
         #endregion
     }

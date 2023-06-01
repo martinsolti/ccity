@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using CCity.ViewModel.Enums;
 
-namespace CCity.ViewModel
+namespace CCity.ViewModel.Items
 {
     public class FieldItem : ViewModelBase
     {
@@ -14,7 +15,6 @@ namespace CCity.ViewModel
         #region Fields
 
         private Texture _texture;
-        private Color _minimapColor;
         private Color _overlayColor;
         private Texture _additionalTexture;
 
@@ -32,21 +32,6 @@ namespace CCity.ViewModel
                     OnPropertyChanged();
                 }
             } 
-        }
-
-        public String Text => _texture.ToString();
-
-        public Color MinimapColor
-        { 
-            get { return _minimapColor; }
-            set
-            {
-                if(_minimapColor != value)
-                {
-                    _minimapColor = value;
-                    OnPropertyChanged();
-                }
-            }
         }
 
         public Color OverlayColor

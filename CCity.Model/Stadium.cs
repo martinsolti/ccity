@@ -12,7 +12,7 @@ namespace CCity.Model
 
         private const int effectRadius = 10;
 
-        private const byte StadiumPotential = 1;
+        private const float StadiumPotential = 0.01f;
 
         #endregion
 
@@ -24,13 +24,13 @@ namespace CCity.Model
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 10000;
 
-        public override int MaintenanceCost => 10;
+        public override int MaintenanceCost => 2000;
 
         public override int NeededElectricity => 200;
 
-        byte IFlammable.Potential => Owner?.FireDepartmentEffect > 0 ? (byte)0 : StadiumPotential;
+        float IFlammable.Potential => Owner?.FireDepartmentEffect > 0.5 ? 0 : StadiumPotential;
 
         bool IFlammable.Burning { get; set; }
 

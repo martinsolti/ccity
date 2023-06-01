@@ -11,23 +11,25 @@ namespace CCity.Model
     {  
         #region Constants
 
-        private const byte PowerPlantPotential = 1;
+        private const float PowerPlantPotential = 0.01f;
+        private const int ElectricityCapacity = 1000;
         
         #endregion
 
         #region Fields
 
         List<Filler> _occupies;
+        bool _tested;
 
         #endregion
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 2000;
 
-        public override int MaintenanceCost => 10;
+        public override int MaintenanceCost => 500;
 
-        byte IFlammable.Potential => Owner?.FireDepartmentEffect > 0 ? (byte)0 : PowerPlantPotential;
+        float IFlammable.Potential => Owner?.FireDepartmentEffect > 0.5 ? 0 : PowerPlantPotential;
         
         bool IFlammable.Burning { get; set; }
 
@@ -43,16 +45,17 @@ namespace CCity.Model
 
         #region Constructor
 
-        public PowerPlant()
+        public PowerPlant(bool tested = false)
         {
             _occupies = new();
+            _tested = tested;
         }
 
         public override void MakeRoot(SpreadType spreadType)
         {
             if (spreadType != SpreadType.Electricity) return;
             base.MakeRoot(spreadType);
-            MaxSpreadValue[spreadType] = () => 1000;
+            MaxSpreadValue[spreadType] = () => _tested ? 1000 : ElectricityCapacity;
         }
 
         #endregion
