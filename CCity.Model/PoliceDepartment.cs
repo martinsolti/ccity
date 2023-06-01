@@ -12,19 +12,19 @@ namespace CCity.Model
 
         private const int effectRadius = 10;
 
-        private const byte PoliceDepartmentPotential = 1;
+        private const float PoliceDepartmentPotential = 0.01f;
 
         #endregion
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 1000;
 
-        public override int MaintenanceCost => 10;
+        public override int MaintenanceCost => 200;
 
         public override int NeededElectricity => 20;
 
-        byte IFlammable.Potential => Owner?.FireDepartmentEffect > 0 ? (byte)0 : PoliceDepartmentPotential;
+        float IFlammable.Potential => Owner?.FireDepartmentEffect > 0.5 ? 0 : PoliceDepartmentPotential;
 
         bool IFlammable.Burning { get; set; }
 

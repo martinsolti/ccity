@@ -18,9 +18,9 @@ namespace CCity.Model
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 1000;
 
-        public override int MaintenanceCost => 10;
+        public override int MaintenanceCost => 200;
 
         public override int NeededElectricity => 20;
 
@@ -36,8 +36,8 @@ namespace CCity.Model
                 base.Owner = value;
             }
         }
-        
-        public FireTruck FireTruck { get; private set; }
+
+        public FireTruck FireTruck { get; private set; } = null!;
 
         internal bool FireTruckDeployed => FireTruck.Active || FireTruck.Moving;
 

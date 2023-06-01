@@ -1,5 +1,3 @@
-using System.Diagnostics;
-
 namespace CCity.Model
 {
     public abstract class Zone : Placeable, IFlammable, IUpgradeable
@@ -12,7 +10,7 @@ namespace CCity.Model
         #endregion
         #region Constants
         
-        private const int BasicUpgradeCost= 100;
+        private const int BasicUpgradeCost= 5000;
         private const int BeginnerCapacity = 10;
         private const int IntermediateCapacity = 30;
         private const int AdvancedCapacity = 100;
@@ -35,7 +33,7 @@ namespace CCity.Model
 
         public List<Citizen> Citizens { get; }
 
-        public abstract byte Potential { get; }
+        public abstract float Potential { get; }
     
         bool IFlammable.Burning { get; set; }
 
@@ -69,6 +67,11 @@ namespace CCity.Model
         
         #region Public methods
 
+        /// <summary>
+        /// Adds a citizen to the zone
+        /// </summary>
+        /// <param name="citizen"> The citizen to be added</param>
+        /// <returns> True if the citizen was added, false if the zone is full</returns>
         public bool AddCitizen(Citizen citizen)
         {
             if (Count + 1 > Capacity) 
@@ -78,6 +81,11 @@ namespace CCity.Model
             return true;
         }
 
+        /// <summary>
+        /// Drops a citizen from the zone
+        /// </summary>
+        /// <param name="citizen"> The citizen to be dropped</param>
+        /// <returns> True if the citizen was dropped, false if the citizen was not in the zone</returns>
         public bool DropCitizen(Citizen citizen) => Citizens.Remove(citizen);
 
         public double Satisfaction()
@@ -87,6 +95,9 @@ namespace CCity.Model
             return sum / Count;
         }
         
+        /// <summary>
+        /// Upgrades the zone
+        /// </summary>
         public void Upgrade()
         {
             if (_level == Level.Advanced) return;

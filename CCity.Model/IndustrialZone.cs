@@ -1,27 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CCity.Model
+﻿namespace CCity.Model
 {
     public class IndustrialZone : WorkplaceZone
     {
         #region Constants
 
-        private const int effectRadius = 10;
+        private const int EffectRadius = 10;
 
-        private const byte IndustrialZonePotential = 2;
+        private const float IndustrialZonePotential = 0.02f;
 
         #endregion
 
         #region Properties
 
-        public override int PlacementCost => 100;
+        public override int PlacementCost => 500;
         public override int MaintenanceCost => 0;
         
-        public override byte Potential => Owner?.FireDepartmentEffect > 0 ? (byte)0 : IndustrialZonePotential ; 
+        public override float Potential => Owner?.FireDepartmentEffect > 0.5 || Empty ? 0 : IndustrialZonePotential ; 
 
         #endregion
 
@@ -31,7 +25,7 @@ namespace CCity.Model
         {
             if (EffectSpreaded == add) return new();
             EffectSpreaded = add;
-            return spreadingFunction(this, add, (f, i) => f.ChangeIndustrialEffect(i), effectRadius);
+            return spreadingFunction(this, add, (f, i) => f.ChangeIndustrialEffect(i), EffectRadius);
         }
 
         #endregion
