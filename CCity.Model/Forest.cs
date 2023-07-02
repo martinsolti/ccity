@@ -8,8 +8,14 @@ namespace CCity.Model
 {
     public class Forest : Placeable
     {
+        /// <summary>
+        /// The radius of forest effect
+        /// </summary>
         const int effectRadius = 3;
 
+        /// <summary>
+        /// The value of max age, the forest does`t grow anymore if it reach it
+        /// </summary>
         public int MaxAge => 10;
 
         #region Properties 
@@ -22,14 +28,29 @@ namespace CCity.Model
 
         public override bool ListingCondition => !IsDemolished && CanGrow;
 
+        /// <summary>
+        /// the amount of growth month
+        /// </summary>
         public int GrowthMonts { get; private set; }
 
+        /// <summary>
+        /// true if the age will change in the next month
+        /// </summary>
         public bool WillAge => GrowthMonts % 12 == 11;
 
+        /// <summary>
+        /// The value of effect according to age
+        /// </summary>
         public double EffectRate => Math.Max((double)Age/MaxAge,(double)1/MaxAge); 
 
+        /// <summary>
+        /// True if the forest is under max age
+        /// </summary>
         public bool CanGrow => Age < MaxAge;
 
+        /// <summary>
+        /// The age of the forest
+        /// </summary>
         public int Age => GrowthMonts / 12;
 
         public override bool IsPublic => true;
@@ -55,6 +76,9 @@ namespace CCity.Model
             return spreadingFunction(this, add, (f, i) => f.ChangeForestEffect(i), effectRadius);
         }
 
+        /// <summary>
+        /// grow the forest, if it is not max aged
+        /// </summary>
         public void Grow()
         {
             if(CanGrow)

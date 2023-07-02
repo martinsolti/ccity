@@ -8,6 +8,9 @@ namespace CCity.Model
 {
     public class ErrorEventArgs
     {
+        /// <summary>
+        /// Store the cause of the occured error
+        /// </summary>
         public GameErrorType ErrorType { get; }
 
         public ErrorEventArgs(GameErrorType errorType)
