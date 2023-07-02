@@ -10,14 +10,29 @@
         
         #region Properties
         
+        /// <summary>
+        /// Home of the citizen
+        /// </summary>
         public ResidentialZone Home { get; }
-        
+        /// <summary>
+        /// Workplace of the citizen
+        /// </summary>
+        /// 
         public WorkplaceZone? Workplace { get; private set; }
         
+        /// <summary>
+        /// Distance of the home and workplace
+        /// </summary>
         public double HomeWorkplaceDistanceEffect { get; private set; }
         
+        /// <summary>
+        /// The value of the last calculated satisfaction
+        /// </summary>
         public double LastCalculatedSatisfaction { get; internal set; }
 
+        /// <summary>
+        /// The value is true when the Workplace property is not null
+        /// </summary>
         public bool Jobless => Workplace == null;
         
         #endregion

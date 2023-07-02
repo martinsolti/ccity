@@ -15,8 +15,14 @@
 
         #region Properties
 
+        /// <summary>
+        /// Store all Citizen
+        /// </summary>
         public List<Citizen> Citizens { get; set; }
         
+        /// <summary>
+        /// Store the count of Citizens
+        /// </summary>
         public int Population => Citizens.Count;
         
         private bool NextWorkplaceIsCommercial { get; set; }

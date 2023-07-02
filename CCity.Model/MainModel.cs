@@ -23,20 +23,69 @@ namespace CCity.Model
 
         #region Properties
 
+        /// <summary>
+        /// The name of the city
+        /// </summary>
         public string CityName { get; private set; }
+
+        /// <summary>
+        /// The name of the mayor
+        /// </summary>
         public string MayorName { get; private set; }
+
+        /// <summary>
+        /// The actual Date
+        /// </summary>
         public DateTime Date { get; private set; }
+
+        /// <summary>
+        /// The spped of the game
+        /// </summary>
         public Speed Speed { get; private set; }
+
+        /// <summary>
+        /// The fields of the game
+        /// </summary>
         public Field[,] Fields => _fieldManager.Fields;
+
+        /// <summary>
+        /// The actual budget
+        /// </summary>
         public int Budget => _globalManager.Budget;
+
+        /// <summary>
+        /// The anount of taxes
+        /// </summary>
         public Taxes Taxes => _globalManager.Taxes;
+
+        /// <summary>
+        /// The anount of sum satisfaction
+        /// </summary>
         public double Satisfaction => _globalManager.TotalSatisfaction;
+
+        /// <summary>
+        /// The population of the citizen
+        /// </summary>
         public int Population => _citizenManager.Population;
+
+        /// <summary>
+        /// The list of all transaction
+        /// </summary>
         public LinkedList<ITransaction> Logbook => _globalManager.Logbook;
+
+        /// <summary>
+        /// The width of the game map
+        /// </summary>
         public int Width => _fieldManager.Width;
+
+        /// <summary>
+        /// the height of the game map
+        /// </summary>
         public int Height => _fieldManager.Height;
 
-        //for test
+        /// <summary>
+        /// The cause of the last occured error for testing purpose
+        /// </summary>
         public GameErrorType LastErrorType { get; private set; }
 
         #endregion

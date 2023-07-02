@@ -16,12 +16,33 @@ namespace CCity.Model
 
         #region Fields
 
+        /// <summary>
+        /// Store the Fields of the game map
+        /// </summary>
         public Field[,] Fields { get; private set; }
+
+        /// <summary>
+        /// The value of the width of the map
+        /// </summary>
         public int Width { get; private set; }
+
+        /// <summary>
+        /// The value of the height of the map
+        /// </summary>
         public int Height { get; private set; }
+
+        /// <summary>
+        /// The count of comercial zones
+        /// </summary>
         public int CommercialZoneCount => _commercialZones.Count;
+
+        /// <summary>
+        /// The count of industrial zones
+        /// </summary>
         public int IndustrialZoneCount => _industrialZones.Count;
+
         public bool FirePresent => FireManager.FirePresent;
+
         public bool FireTrucksDeployed => FireManager.FireTrucksDeployed;
 
         private HashSet<ResidentialZone> _residentialZones;
