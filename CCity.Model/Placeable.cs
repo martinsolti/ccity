@@ -139,10 +139,10 @@ namespace CCity.Model
         }
 
         /// <summary>
-        /// 
+        /// Spreads or revokes the effect of the placeable
         /// </summary>
-        /// <param name="f"></param>
-        /// <param name="b"></param>
+        /// <param name="f">The effect spreading function that implements the spreading's logic. It has 3 parameters (the placeable, a bool (spread or revoke), an action that changes the field's proper effect value, an integer (the value of the effect change)) and it returns a list of field that has changed during the spreading/revoking</param>
+        /// <param name="b">Spreading (true) or revocation (false)</param>
         /// <returns></returns>
         public virtual List<Field> Effect(Func<Placeable, bool, Action<Field, int>, int, List<Field>> f, bool b) => new();
 
