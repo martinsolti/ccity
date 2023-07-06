@@ -30,7 +30,7 @@ build:view:
   script:
     - dotnet build CCity.sln
     - dotnet publish CCity\CCity.csproj -c Release -o publish
-    artifacts:
+  artifacts:
     name: 'ccity_binaries'
     expire_in: 3 days
     paths:
