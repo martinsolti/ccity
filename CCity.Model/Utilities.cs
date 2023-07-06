@@ -132,10 +132,22 @@ namespace CCity.Model
 
             return points.ToList();
         }
-
-
-        // NOTE: The first item in this queue is the road next to the field and the last item in this queue is the field which we must get to
-        // If the queue is empty, it means there is no road connecting the two fields
+        
+        /// <summary>
+        /// Returns the shortest path on roads between two fields using Dijkstra's algorithm.
+        /// This method should be provided a starter field and set of fields as destinations.
+        /// The first field to be found using Dijkstra's algorithm from the set of goals will be the the destination used in the shortest road. 
+        /// </summary>
+        /// <param name="fields">The fields of the map.</param>
+        /// <param name="width">The width of the map.</param>
+        /// <param name="height">The height of the map.</param>
+        /// <param name="s">The starting field.</param>
+        /// <param name="goals">A set of goal fields.</param>
+        /// <returns>
+        /// A linked list of fields representing the shortest road between the starting field and one of the goal fields.
+        /// The first item in this list is the road next to the starting field and the last item is the destination field.
+        /// If the list is empty, there is no road connecting the two fields.
+        /// </returns>
         public static LinkedList<Field> ShortestRoad(Field[,] fields, int width, int height, Field s, HashSet<Field> goals)
         {
             var result = new LinkedList<Field>();

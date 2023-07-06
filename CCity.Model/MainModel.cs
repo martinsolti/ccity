@@ -191,6 +191,11 @@ namespace CCity.Model
             }
         }
 
+        /// <summary>
+        /// Attempts to deploy a fire truck to the specified x and y coordinates. 
+        /// Attempts to deploy a fire truck to the specified x and y coordinates. 
+        /// </summary>
+        /// <seealso cref="FieldManager.DeployFireTruck"/>
         public void DeployFireTruck(int x, int y)
         {
             try
@@ -208,6 +213,9 @@ namespace CCity.Model
             }
         }
 
+        /// <summary>
+        /// Ignites a building at the specified x and y coordinates.
+        /// </summary>
         public void IgniteBuilding(int x, int y)
         {
             List<Field>? updatedFields = null;
@@ -231,8 +239,7 @@ namespace CCity.Model
             
             if (updatedFields != null)
                 FieldsUpdated?.Invoke(this, new FieldEventArgs(updatedFields));
-        } 
-
+        }
 
         /// <summary>
         /// Changes the tax by adding the amount (percentage) to the current tax value

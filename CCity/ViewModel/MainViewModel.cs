@@ -473,6 +473,7 @@ namespace CCity.ViewModel
                     case Tool.Cursor: SelectField(index); break;
                     case Tool.Bulldozer: _model.Demolish(x, y); break;
                     case Tool.FlintAndSteel: _model.IgniteBuilding(x, y); break;
+
                     default: throw new Exception();
                 }
             } else
