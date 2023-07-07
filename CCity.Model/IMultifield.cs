@@ -11,8 +11,19 @@ namespace CCity.Model
 
         #region Properties
 
+        /// <summary>
+        /// The Width of the IMultifield placeable
+        /// </summary>
         public int Width { get; }
+
+        /// <summary>
+        /// The Height of the IMultifield placeable
+        /// </summary>
         public int Height { get; }
+
+        /// <summary>
+        /// Store the Fillers
+        /// </summary>
         public List<Filler> Occupies { get; internal set; }
 
         #endregion

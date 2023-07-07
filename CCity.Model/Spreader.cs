@@ -39,6 +39,10 @@ namespace CCity.Model
 
         #region Public methods
 
+        /// <summary>
+        /// Refresh spreading from a given placeable
+        /// </summary>
+        /// <param name="placeable">The placeable</param>
         public void Refresh(Placeable placeable)
         {
             if (placeable.IsDemolished)
@@ -57,6 +61,10 @@ namespace CCity.Model
             }
         }
 
+        /// <summary>
+        /// Gets the list modified fields stored in the Spreader class, then clears it.
+        /// </summary>
+        /// <returns>The list of the modified fields</returns>
         public List<Field> GetAndClearModifiedFields()
         {
             List<Field> returnValue = _modifiedFields.ToList();

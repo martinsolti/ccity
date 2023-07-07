@@ -8,6 +8,9 @@ namespace CCity.Model
 {
     public class Filler : Placeable
     {
+        /// <summary>
+        /// The value of the route placeable
+        /// </summary>
         public IMultifield Main { get; private set; }
 
         public override int PlacementCost => 0;
