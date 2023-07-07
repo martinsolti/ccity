@@ -4,6 +4,12 @@ namespace CCity.Model
 {
     public static class Utilities
     {
+        /// <summary>
+        /// Gets points around a field within a given radius
+        /// </summary>
+        /// <param name="f">The field</param>
+        /// <param name="r">The radius</param>
+        /// <returns>Enumerator of the points</returns>
         public static IEnumerable<(int X, int Y)> GetPointsInRadius(Field f, int r)
         {
             var size = r * 2 + 1;
@@ -30,6 +36,12 @@ namespace CCity.Model
             return result;
         }
 
+        /// <summary>
+        /// Gets points around a field within a given radius, weighted by the distance from the center of the circle
+        /// </summary>
+        /// <param name="f">The field</param>
+        /// <param name="r">The radius</param>
+        /// <returns>Enumerator of the points</returns>
         public static IEnumerable<(int X, int Y, double Weight)> GetPointsInRadiusWeighted(Field f, int r) => 
             from point in GetPointsInRadius(f, r) 
             select (
@@ -39,38 +51,62 @@ namespace CCity.Model
             );
 
         
+        /// <summary>
+        /// Square distance between 2 placeables
+        /// </summary>
+        /// <param name="p1">Placeable 1</param>
+        /// <param name="p2">Placeable 2</param>
+        /// <returns>The square distance between placeable 1 and placeable 2</returns>
         public static double SquareDistance(Placeable p1, Placeable p2) => SquareDistance(p1.Owner, p2.Owner);
-        
+
+        /// <summary>
+        /// Square distance between 2 fields
+        /// </summary>
+        /// <param name="p1">Field 1</param>
+        /// <param name="p2">Field 2</param>
+        /// <returns>The square distance between field 1 and field 2</returns>
         public static double SquareDistance(Field? f1, Field? f2) => (f1, f2) switch
         {
             (not null, not null) => SquareDistance(f1.X, f1.Y, f2.X, f2.Y),
             _ => 0
         };
 
+        /// <summary>
+        /// Square distance between 2 points
+        /// </summary>
+        /// <param name="p1">Point 1</param>
+        /// <param name="p2">Point 2</param>
+        /// <returns>The square distance between point 1 and point 2</returns>
         public static double SquareDistance(int x1, int y1, int x2, int y2) =>
             Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
 
+        /// <summary>
+        /// Absolute distance between 2 placeables
+        /// </summary>
+        /// <param name="p1">Placeable 1</param>
+        /// <param name="p2">Placeable 2</param>
+        /// <returns>The absolute distance between placeable 1 and placeable 2</returns>
         public static int AbsoluteDistance(Placeable? p1, Placeable? p2) => AbsoluteDistance(p1?.Owner, p2?.Owner);
 
+        /// <summary>
+        /// Absolute distance between 2 fields
+        /// </summary>
+        /// <param name="p1">Field 1</param>
+        /// <param name="p2">Field 2</param>
+        /// <returns>The absolute distance between field 1 and field 2</returns>
         public static int AbsoluteDistance(Field? f1, Field? f2) => (f1, f2) switch
         {
             (not null, not null) =>  AbsoluteDistance(f1.X, f1.Y, f2.X, f2.Y),
             _ => int.MaxValue
         };
 
+        /// <summary>
+        /// Absolute distance between 2 points
+        /// </summary>
+        /// <param name="p1">Point 1</param>
+        /// <param name="p2">Point 2</param>
+        /// <returns>The absolute distance between point 1 and point 2</returns>
         public static int AbsoluteDistance(int x1, int y1, int x2, int y2) => Math.Abs(x1 - x2) + Math.Abs(y1 - y2);
-        
-        public static (TCollection True, TCollection False) Split<TCollection, T>(TCollection collection, Predicate<T> condition) 
-            where TCollection : ICollection<T>, new()
-        {
-            var resultTrue = new TCollection();
-            var resultFalse = new TCollection();
-
-            foreach (var item in collection)
-                (condition(item) ? resultTrue : resultFalse).Add(item);
-
-            return (resultTrue, resultFalse);
-        }
 
         public static List<(int, int)> GetPointsBetween(Field s, Field t)
         {
@@ -96,8 +132,22 @@ namespace CCity.Model
 
             return points.ToList();
         }
-        // NOTE: The first item in this queue is the road next to the field and the last item in this queue is the field which we must get to
-        // If the queue is empty, it means there is no road connecting the two fields
+        
+        /// <summary>
+        /// Returns the shortest path on roads between two fields using Dijkstra's algorithm.
+        /// This method should be provided a starter field and set of fields as destinations.
+        /// The first field to be found using Dijkstra's algorithm from the set of goals will be the the destination used in the shortest road. 
+        /// </summary>
+        /// <param name="fields">The fields of the map.</param>
+        /// <param name="width">The width of the map.</param>
+        /// <param name="height">The height of the map.</param>
+        /// <param name="s">The starting field.</param>
+        /// <param name="goals">A set of goal fields.</param>
+        /// <returns>
+        /// A linked list of fields representing the shortest road between the starting field and one of the goal fields.
+        /// The first item in this list is the road next to the starting field and the last item is the destination field.
+        /// If the list is empty, there is no road connecting the two fields.
+        /// </returns>
         public static LinkedList<Field> ShortestRoad(Field[,] fields, int width, int height, Field s, HashSet<Field> goals)
         {
             var result = new LinkedList<Field>();

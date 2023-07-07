@@ -1,3 +1,5 @@
+using System.Buffers.Text;
+
 namespace CCity.Model
 {
     public abstract class Zone : Placeable, IFlammable, IUpgradeable
@@ -8,6 +10,7 @@ namespace CCity.Model
         private const int upgradeCost = 100;
 
         #endregion
+
         #region Constants
         
         private const int BasicUpgradeCost= 5000;
@@ -19,10 +22,19 @@ namespace CCity.Model
        
         #region Properties
 
+        /// <summary>
+        /// The value of the zone's needed electricity
+        /// </summary>
         public override int NeededElectricity => Count;
 
+        /// <summary>
+        /// Number of citizens living/working in the zone
+        /// </summary>
         public int Count => Citizens.Count;
         
+        /// <summary>
+        /// Max number of citizens living/working in the zone
+        /// </summary>
         public int Capacity => _level switch
         {
             Level.Beginner => BeginnerCapacity,
@@ -31,27 +43,50 @@ namespace CCity.Model
             _ => throw new System.NotImplementedException()
         };
 
+        /// <summary>
+        /// List of Citizens living in the zone
+        /// </summary>
         public List<Citizen> Citizens { get; }
 
+        /// <summary>
+        /// The potential to ignite
+        /// </summary>
         public abstract float Potential { get; }
-    
+
+        /// <summary>
+        /// Returns if the zone is full or not (if the number of citizens living/working in the zone is equal to the capacity)
+        /// </summary>
+        public bool Full => Count == Capacity;
+
+        /// <summary>
+        /// Returns if the zone is empty or not (if the number of citizens living/working in the zone is zero)
+        /// </summary>
+        public bool Empty => Count == 0;
+
+        /// <summary>
+        /// Returns if the number of citizens is below the half of the capacity
+        /// </summary>
+        public bool BelowHalfPopulation => Count * 2 < Capacity;
+
+        /// <summary>
+        /// The citizen's desire to move in
+        /// </summary>
+        public double DesireToMoveIn { get; set; }
+
+        /// <summary>
+        /// The effect based on the average distance between citizens' homes and workplaces
+        /// </summary>
+        public double DistanceEffect { get; set; }
+
         bool IFlammable.Burning { get; set; }
 
         Level IUpgradeable.Level { get => _level; set => _level = value; }
-        
-        int IUpgradeable.NextUpgradeCost =>_level!=Level.Advanced? ((int)_level+1)*BasicUpgradeCost: 0;
 
-        bool IUpgradeable.CanUpgrade => _level!=Level.Advanced;
-        
+        int IUpgradeable.NextUpgradeCost => _level != Level.Advanced ? ((int)_level + 1) * BasicUpgradeCost : 0;
+
+        bool IUpgradeable.CanUpgrade => _level != Level.Advanced;
+
         ushort IFlammable.Health { get; set; } = IFlammable.FlammableMaxHealth;
-
-        public bool Full => Count == Capacity;
-
-        public bool Empty => Count == 0;
-
-        public bool BelowHalfPopulation => Count * 2 < Capacity;
-        public double DesireToMoveIn { get; set; }
-        public double DistanceEffect { get; set; }
 
         #endregion
 
@@ -88,13 +123,6 @@ namespace CCity.Model
         /// <returns> True if the citizen was dropped, false if the citizen was not in the zone</returns>
         public bool DropCitizen(Citizen citizen) => Citizens.Remove(citizen);
 
-        public double Satisfaction()
-        {
-            if (Count == 0) return 0;
-            double sum = Citizens.Sum(e => e.LastCalculatedSatisfaction);
-            return sum / Count;
-        }
-        
         /// <summary>
         /// Upgrades the zone
         /// </summary>

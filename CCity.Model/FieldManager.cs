@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace CCity.Model
 {
     public class FieldManager
@@ -16,12 +18,33 @@ namespace CCity.Model
 
         #region Fields
 
+        /// <summary>
+        /// Store the Fields of the game map
+        /// </summary>
         public Field[,] Fields { get; private set; }
+
+        /// <summary>
+        /// The value of the width of the map
+        /// </summary>
         public int Width { get; private set; }
+
+        /// <summary>
+        /// The value of the height of the map
+        /// </summary>
         public int Height { get; private set; }
+
+        /// <summary>
+        /// The count of comercial zones
+        /// </summary>
         public int CommercialZoneCount => _commercialZones.Count;
+
+        /// <summary>
+        /// The count of industrial zones
+        /// </summary>
         public int IndustrialZoneCount => _industrialZones.Count;
+
         public bool FirePresent => FireManager.FirePresent;
+
         public bool FireTrucksDeployed => FireManager.FireTrucksDeployed;
 
         private HashSet<ResidentialZone> _residentialZones;
@@ -180,7 +203,12 @@ namespace CCity.Model
             _electricitySpreader.RefreshRoots();
             return _electricitySpreader.GetAndClearModifiedFields();
         }
-
+        
+        /// <summary>
+        /// Ignites a building at the specified location.
+        /// </summary>
+        /// <returns>A list of fields representing the effected area (in this case, the field(s) of the ignited building).</returns>
+        /// <exception cref="Exception">Thrown if the coordinates are invalid or if the building at the specified location cannot be ignited.</exception>
         public List<Field> IgniteBuilding(int x, int y)
         {
             if (!OnMap(x, y))
@@ -200,14 +228,25 @@ namespace CCity.Model
             return result;
         }
 
-        public List<Field> IgniteRandomFlammable()
-        {
-            if (_testModeRandomIgniteOff) return new List<Field>();
-            return FireManager.IgniteRandomFlammable();
-        }
+        /// <summary>
+        /// Ignites a random building.
+        /// </summary>
+        /// <returns>A list containing the fields of the buildings that were ignited.</returns>
+        /// <seealso cref="FireManager.IgniteRandomFlammable"/>
+        public List<Field> IgniteRandomFlammable() => _testModeRandomIgniteOff ? new List<Field>() : FireManager.IgniteRandomFlammable();
 
+        /// <summary>
+        /// Updates the state and health of the buildings that are being effected by the active fire cases.
+        /// </summary>
+        /// <returns>A tuple of lists containing fields that were effected by the active fire cases.</returns>
+        /// <seealso cref="FireManager.UpdateFires"/>
         public (List<Field> Updated, List<Field> Wrecked) UpdateFires() => FireManager.UpdateFires();
 
+        /// <summary>
+        /// Attempts to deploy a fire truck to the given coordinates.
+        /// </summary>
+        /// <exception cref="GameErrorException">Thrown if there is no fire truck to be deployed or if the coordinates are invalid.</exception>
+        /// <seealso cref="FireManager.DeployFireTruck"/>
         public void DeployFireTruck(int x, int y)
         {
             if (!FirePresent)
@@ -229,7 +268,12 @@ namespace CCity.Model
                 throw new GameErrorException(GameErrorType.DeployFireTruckNoneAvaiable);
         }
 
-        // NOTE: This method returns the old locations (aka. the location of the fire trucks in the previous tick) of all the fire trucks
+        /// <summary>
+        /// Updates the locations of the deployed fire trucks on the map.
+        /// </summary>
+        /// <returns>A list of fields representing the locations of the fire trucks in the PREVIOUS TICK. </returns>
+        /// <exception cref="Exception">Thrown when the method was called even if there are no fire trucks deployed. (For optimization, this method should only be called if necessary.)</exception>
+        /// <seealso cref="FireManager.UpdateFireTrucks"/>
         public List<Field> UpdateFireTrucks()
         {
             if (!FireTrucksDeployed)
@@ -237,8 +281,7 @@ namespace CCity.Model
 
             return FireManager.UpdateFireTrucks();
         }
-
-
+        
         /// <param name="showUnavailable">Return unavailable ResidentialZones as well</param>
         /// <returns>List of ResidentialZones, only availables (vacant and electrified) by default</returns>
         public List<ResidentialZone> ResidentialZones(bool showUnavailable) => _residentialZones.Where(zone => !zone.Full && zone.IsElectrified || showUnavailable).ToList();

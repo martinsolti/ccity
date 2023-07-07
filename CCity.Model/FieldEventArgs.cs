@@ -8,6 +8,9 @@ namespace CCity.Model
 {
     public class FieldEventArgs
     {
+        /// <summary>
+        /// Store the effected Fields by the event
+        /// </summary>
         public List<Field> Fields { get; }
 
         public FieldEventArgs(List<Field> fields)

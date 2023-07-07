@@ -8,6 +8,9 @@ namespace CCity.Model
 {
     public class GameErrorException : Exception
     {
+        /// <summary>
+        /// The cause of the error
+        /// </summary>
         public GameErrorType ErrorType { get; private set;}
 
         public GameErrorException(GameErrorType error)
